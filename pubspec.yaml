@@ -15,7 +15,7 @@ dependencies:
 
   cupertino_icons: ^1.0.3
   flutter_bloc: ^7.1.0
-  get: ^4.1.4
+  get: 
   shared_preferences_web: ^2.0.4
   provider: ^5.0.0
   path: ^1.8.0
@@ -32,7 +32,7 @@ dependencies:
   flutter_svg: ^0.22.0
   line_icons: ^2.0.1
   http: ^0.13.3
-  fluttertoast:
+  # flutter_flushbar:
   
 dev_dependencies:
   flutter_test:

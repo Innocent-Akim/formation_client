@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:formation_client/app/identifications/bloc/identification_bloc.dart';
 import 'package:formation_client/controllers/MenuController.dart';
@@ -302,19 +302,21 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
 
                         if (state is IdentificationFailed) {
                           setState(() {
-                            Fluttertoast.showToast(msg: state.contents.msg);
+                            // Fluttertoast.showToast(msg: state.contents.msg);
                             isProgress = false;
                           });
                         }
                         if (state is IdentificationSucces) {
                           setState(() {
                             isProgress = false;
-                            showTop(
-                              context: context,
-                              color: Colors.blue,
-                              title: state.contents.msg,
-                              icon: Icon(Icons.save),
-                            );
+                            // Fluttertoast.showToast(msg: state.contents.msg);
+
+                            //   showTop(
+                            //     context: context,
+                            //     color: Colors.blue,
+                            //     title: state.contents.msg,
+                            //     icon: Icon(Icons.save),
+                            //   );
                           });
                         }
                       },
@@ -394,7 +396,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                               controller: dateNaissaissance,
                               hintText: "Entrez la date naissance",
                               labelText: "Date de naissance",
-                              isvisible: true,
+                              isDesebled: true,
                               textInputType: TextInputType.phone,
                               prefixIcon: Icon(LineIcons.calendar),
                               onTap: () {
@@ -413,7 +415,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                             hintText: "Entrez votre adresse mail",
                             labelText: "Mail ",
                             textInputType: TextInputType.emailAddress,
-                            prefixIcon: Icon(LineIcons.mailchimp),
+                            prefixIcon: Icon(Icons.mail_outline_outlined),
                           ),
                           SizedBox(height: 15),
                           buildTextField(
@@ -436,6 +438,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                                   email: email.text,
                                   dateNaissance: dateNaissaissance.text,
                                   refEntreprise: "10",
+                                  password: passwordChange.text,
                                   status: '0',
                                 );
                                 setState(() {
@@ -454,7 +457,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                               width: double.maxFinite,
                               padding: EdgeInsets.symmetric(vertical: 16),
                               child: Center(
-                                child: isLoading
+                                child: isProgress
                                     ? SpinKitSpinningLines(
                                         color: Colors.white,
                                         size: 18,

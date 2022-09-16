@@ -9,7 +9,6 @@ class ApiSource {
   Future<ResponseIdentity> addIdentity(Map<String, dynamic> body) async {
     try {
       var url = "${baseUrl}inscrire/add";
-      print(url);
       var response = await http.post(Uri.parse(url),
           headers: <String, String>{
             'Content-Type': 'application/x-www-form-urlencoded'
