@@ -1,3 +1,4 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
@@ -49,7 +50,7 @@ Widget cbList(
       value: valeur,
       onChanged: onChanged,
       hint: Text(
-        "Sélectionnez ${title}",
+        "Sélectionnez $title",
         style: TextStyle(
           fontSize: 14,
         ),
@@ -109,3 +110,27 @@ List<DropdownMenuItem<String>> isList({List<String> value}) {
       )
       .toList();
 }
+
+Widget showTop({BuildContext context, Icon icon, title, Color color}) =>
+    Flushbar(
+      icon: icon,
+      shouldIconPulse: false,
+      duration: Duration(seconds: 3),
+      // message: title,
+      messageText: Text(
+        title,
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      borderColor: primaryColor,
+      // borderRadius: 20,
+      // borderWidth: 20,
+      flushbarStyle: FlushbarStyle.GROUNDED,
+      margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
+      backgroundColor: color,
+      flushbarPosition: FlushbarPosition.TOP,
+      animationDuration: Duration(seconds: 1),
+    )..show(context);
