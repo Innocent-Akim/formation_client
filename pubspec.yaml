@@ -21,7 +21,7 @@ dependencies:
   path: ^1.8.0
   date_range_picker: ^1.0.7
   flick_video_player: 
-  another_flushbar:
+  # another_flushbar:
   avatar_glow:
   intl: ^0.17.0
   path_provider: 
@@ -32,6 +32,9 @@ dependencies:
   flutter_svg: ^0.22.0
   line_icons: ^2.0.1
   http: ^0.13.3
+  snack: ^2.0.0
+  motion_toast: ^2.3.3
+  # animated_toast_list: 
   # flutter_flushbar:
   
 dev_dependencies:

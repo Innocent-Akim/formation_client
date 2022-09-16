@@ -11,7 +11,8 @@ import 'package:formation_client/controllers/style.dart';
 import 'package:formation_client/model/entity/entity_identity.dart';
 import 'package:formation_client/response/responsive.dart';
 import 'package:line_icons/line_icons.dart';
-
+// import 'package:motion_toast/motion_toast.dart' as motion_toast;
+import 'package:snack/snack.dart';
 import '../constants.dart';
 
 class AuthenticationPage extends StatefulWidget {
@@ -304,11 +305,42 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                           setState(() {
                             // Fluttertoast.showToast(msg: state.contents.msg);
                             isProgress = false;
+                            SnackBar(
+                                    content: Text(
+                                      state.contents.msg,
+                                      style: TextStyle(fontSize: 20),
+                                    ),
+                                    backgroundColor: Colors.red)
+                                .show(context, root: true);
+
+                            //  motion_toast.     MotionToast.success(
+                            //               title: Text("Success Motion Toast"),
+                            //               description:
+                            //                   Text("Example of success motion toast"),
+                            //
+                            // buildClean();
+                            //           .show(context);
                           });
                         }
                         if (state is IdentificationSucces) {
                           setState(() {
                             isProgress = false;
+                            //  motion_toast.     MotionToast.success(
+                            //               title: Text(state.contents.msg,
+                            //                 style: TextStyle(fontSize: 20),
+                            //               ),
+                            //               description:
+                            //                   Text("Example of success motion toast"),
+                            //               width: 300)
+                            //           .show(context);
+                            buildClean();
+                            SnackBar(
+                                    content: Text(
+                                      state.contents.msg,
+                                      style: TextStyle(fontSize: 20),
+                                    ),
+                                    backgroundColor: primaryColor)
+                                .show(context);
                             // Fluttertoast.showToast(msg: state.contents.msg);
 
                             //   showTop(
@@ -473,7 +505,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                           SizedBox(
                             height: 15,
                           ),
-                          GestureDetector(
+                          InkWell(
                             onTap: () {
                               setState(() {
                                 isvisibleChanged = !isvisibleChanged;
@@ -482,8 +514,6 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                             child: RichText(
                               text: TextSpan(
                                 children: [
-                                  TextSpan(
-                                      text: "Do not have admin credentials? "),
                                   TextSpan(
                                     text: !isvisibleChanged
                                         ? "S'inscrire"
@@ -506,5 +536,16 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
         ),
       ],
     );
+  }
+
+  void buildClean() {
+    nom.clear();
+    postnom.clear();
+    passwordChange.clear();
+    prenom.clear();
+    email.clear();
+    genre = null;
+    dateNaissaissance.clear();
+    telephone.clear();
   }
 }
