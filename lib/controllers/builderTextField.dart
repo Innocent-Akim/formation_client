@@ -1,15 +1,23 @@
 import 'package:flutter/material.dart';
 
+import '../constants.dart';
+
 Widget buildTextField(
     {var controller,
     var hintText,
     labelText,
     Widget prefixIcon,
     bool isvisible = false,
-    Widget suffixIcon,Function onChanged, VoidCallback onTap }) {
+    Widget suffixIcon,
+    Function onChanged,
+    VoidCallback onTap,
+    TextInputType textInputType = TextInputType.text,
+    bool isDesebled = false}) {
   return Container(
     height: 50,
     child: TextFormField(
+      keyboardType: textInputType,
+      readOnly: isDesebled,
       obscureText: isvisible,
       validator: (val) =>
           val != null && val.isEmpty ? "le champ est required" : null,
@@ -19,7 +27,6 @@ Widget buildTextField(
         hintText: hintText,
         prefixIcon: prefixIcon,
         suffixIcon: suffixIcon,
-      
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(5)),
       ),
       onChanged: onChanged,
@@ -27,4 +34,78 @@ Widget buildTextField(
       onFieldSubmitted: (_) {},
     ),
   );
+}
+
+Widget cbList(
+        {List<DropdownMenuItem<String>> list,
+        title,
+        String valeur,
+        Function onChanged,
+        Icon icon,
+        child}) =>
+    DropdownButtonFormField(
+      isExpanded: true,
+      items: list,
+      value: valeur,
+      onChanged: onChanged,
+      hint: Text(
+        "Sélectionnez ${title}",
+        style: TextStyle(
+          fontSize: 14,
+        ),
+      ),
+      decoration: InputDecoration(
+        prefixIcon: icon,
+        //labelText: "Technologies",
+        border: OutlineInputBorder(
+          // borderSide: BorderSide. ,
+          borderRadius: const BorderRadius.all(Radius.circular(5)),
+        ),
+        hintStyle: TextStyle(
+            fontSize: 13, color: Colors.black, fontWeight: FontWeight.normal),
+        contentPadding: EdgeInsets.fromLTRB(5, 10, 5, 10),
+      ),
+      validator: (val) => val == null ? "Ce champs est obligatoire" : null,
+      onSaved: (val) => valeur = val,
+    );
+
+List<DropdownMenuItem<String>> isList({List<String> value}) {
+  return value
+      .map(
+        (value) => DropdownMenuItem(
+          value: value,
+          child: value == null || value.isEmpty
+              ? Text("")
+              : Row(
+                  children: [
+                    Container(
+                      height: 20,
+                      width: 20,
+                      child: Center(
+                        child: Text(
+                          value.substring(0, 1).toUpperCase(),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      decoration: BoxDecoration(
+                          color: primaryColor,
+                          borderRadius: BorderRadius.circular(15)),
+                    ),
+                    SizedBox(width: 3),
+                    Text(
+                      value,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
+                ),
+        ),
+      )
+      .toList();
 }

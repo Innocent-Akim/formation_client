@@ -8,6 +8,8 @@ import 'package:formation_client/controllers/style.dart';
 import 'package:formation_client/response/responsive.dart';
 import 'package:line_icons/line_icons.dart';
 
+import '../constants.dart';
+
 class AuthenticationPage extends StatefulWidget {
   const AuthenticationPage({Key key}) : super(key: key);
 
@@ -21,12 +23,38 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
   bool isvisibleChanged = false;
   final _formKey = GlobalKey<FormState>();
   var username = TextEditingController();
+
+  var passwordChange = TextEditingController();
+  var genre;
+
   var password = TextEditingController();
+  var dateNaissaissance = TextEditingController();
+  var nom = TextEditingController();
+  var postnom = TextEditingController();
+  var prenom = TextEditingController();
+  var email = TextEditingController();
+  var telephone = TextEditingController();
 
   var bloc;
   @override
   void initState() {
     super.initState();
+  }
+
+  DateTime selectedDate = DateTime.now();
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(2015, 8),
+        lastDate: DateTime(2101));
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+        dateNaissaissance.text = picked.toString().substring(0,10);
+      });
+    }
   }
 
   @override
@@ -190,9 +218,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                             ),
                           ),
                         ),
-                        SizedBox(
-                          height: 15,
-                        ),
+                        SizedBox(height: 15),
                         GestureDetector(
                           onTap: () {
                             setState(() {
@@ -205,7 +231,9 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                                 TextSpan(
                                     text: "Do not have admin credentials? "),
                                 TextSpan(
-                                  text: "Sign up",
+                                  text: !isvisibleChanged
+                                      ? "S'inscrire"
+                                      : "Authentifications",
                                   style: TextStyle(color: active),
                                   onEnter: (event) {},
                                 )
@@ -269,7 +297,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                         ),
                         Row(
                           children: [
-                            Text("Login",
+                            Text("S'INSCRIRE",
                                 style: TextStyle(
                                     fontSize: 30, fontWeight: FontWeight.bold)),
                           ],
@@ -287,39 +315,83 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                         ),
                         SizedBox(height: 15),
                         buildTextField(
-                          controller: null,
+                          controller: nom,
                           hintText: "Entrez votre nom",
                           labelText: "Nom",
                           prefixIcon: Icon(LineIcons.user),
                         ),
                         SizedBox(height: 15),
-                        SizedBox(
-                          height: 15,
+                        buildTextField(
+                          controller: postnom,
+                          hintText: "Entrez votre Postnom",
+                          labelText: "Postnom ",
+                          prefixIcon: Icon(LineIcons.user),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                Checkbox(value: true, onChanged: (value) {}),
-                                CustomText(
-                                  text: "Remeber Me",
-                                ),
-                              ],
-                            ),
-                            CustomText(
-                                text: "Mot de passe oublié ?", color: active)
-                          ],
+                        SizedBox(height: 15),
+                        buildTextField(
+                          controller: prenom,
+                          hintText: "Entrez votre Prénom",
+                          labelText: "Prénom ",
+                          prefixIcon: Icon(LineIcons.user),
                         ),
-                        SizedBox(
-                          height: 15,
+                        SizedBox(height: 15),
+                        cbList(
+                            valeur: genre,
+                            title: "genre",
+                            onChanged: (val) {
+                              setState(() {
+                                FocusScope.of(context)
+                                    .requestFocus(FocusNode());
+                                genre = val;
+                              });
+                            },
+                            list: isList(value: ["Homme", "Femme"]),
+                            icon: Icon(
+                                genre == 'Homme'
+                                    ? LineIcons.male
+                                    : LineIcons.female,
+                                color: primaryColor)),
+                        SizedBox(height: 15),
+                        buildTextField(
+                            controller: dateNaissaissance,
+                            hintText: "Entrez la date naissance",
+                            labelText: "Date de naissance",
+                            textInputType: TextInputType.phone,
+                            prefixIcon: Icon(LineIcons.calendar),
+                            onTap: () {
+                              _selectDate(context);
+                            }),
+                        SizedBox(height: 15),
+                        buildTextField(
+                          controller: telephone,
+                          hintText: "Entrez le numéro de téléphone",
+                          labelText: "Telephone ",
+                          prefixIcon: Icon(LineIcons.phone),
                         ),
+                        SizedBox(height: 15),
+                        buildTextField(
+                          controller: email,
+                          hintText: "Entrez votre adresse mail",
+                          labelText: "Mail ",
+                          textInputType: TextInputType.emailAddress,
+                          prefixIcon: Icon(LineIcons.mailchimp),
+                        ),
+                        SizedBox(height: 15),
+                        buildTextField(
+                          isvisible: true,
+                          controller: passwordChange,
+                          hintText: "Entrez votre mot de passe",
+                          labelText: "Mot de passe ",
+                          prefixIcon: Icon(LineIcons.lock),
+                        ),
+                        SizedBox(height: 15),
                         InkWell(
                           onTap: () {
                             setState(() {});
                             // Get.offAllNamed(dashboardPageRoute);
                           },
                           child: Container(
+                            height: 50,
                             decoration: BoxDecoration(
                                 color: Color(0xFF007EE5),
                                 borderRadius: BorderRadius.circular(5)),
@@ -333,8 +405,9 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                                       size: 18,
                                     )
                                   : CustomText(
-                                      text: "Login",
+                                      text: "Enregistrer",
                                       color: Colors.white,
+                                      size: 13,
                                     ),
                             ),
                           ),
@@ -354,7 +427,9 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                                 TextSpan(
                                     text: "Do not have admin credentials? "),
                                 TextSpan(
-                                  text: "Sign up",
+                                  text: !isvisibleChanged
+                                      ? "S'inscrire"
+                                      : "Authentifications",
                                   style: TextStyle(color: active),
                                   onEnter: (event) {},
                                 )
