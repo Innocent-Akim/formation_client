@@ -10,6 +10,8 @@ import 'package:formation_client/controllers/builderTextField.dart';
 import 'package:formation_client/controllers/style.dart';
 import 'package:formation_client/model/entity/entity_identity.dart';
 import 'package:formation_client/response/responsive.dart';
+import 'package:formation_client/router/activity_navigator.dart';
+import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
 // import 'package:motion_toast/motion_toast.dart' as motion_toast;
 import 'package:snack/snack.dart';
@@ -193,7 +195,9 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                               ],
                             ),
                             CustomText(
-                                text: "Mot de passe oublié ?", color: active)
+                              text: "Mot de passe oublié ?",
+                              color: active,
+                            )
                           ],
                         ),
                         SizedBox(
@@ -202,7 +206,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                         InkWell(
                           onTap: () {
                             setState(() {});
-                            // Get.offAllNamed(dashboardPageRoute);
+                            Get.offAllNamed(home);
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -218,7 +222,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                                       size: 18,
                                     )
                                   : CustomText(
-                                      text: "Login",
+                                      text: "Connexion",
                                       color: Colors.white,
                                     ),
                             ),
@@ -308,7 +312,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                             SnackBar(
                                     content: Text(
                                       state.contents.msg,
-                                      style: TextStyle(fontSize: 20),
+                                      style: TextStyle(fontSize: 16),
                                     ),
                                     backgroundColor: Colors.red)
                                 .show(context, root: true);
@@ -337,7 +341,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                             SnackBar(
                                     content: Text(
                                       state.contents.msg,
-                                      style: TextStyle(fontSize: 20),
+                                      style: TextStyle(fontSize: 16),
                                     ),
                                     backgroundColor: primaryColor)
                                 .show(context);
@@ -471,7 +475,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                                   dateNaissance: dateNaissaissance.text,
                                   refEntreprise: "10",
                                   password: passwordChange.text,
-                                  status: '0',
+                                  status: '1',
                                 );
                                 setState(() {
                                   bloc.add(

@@ -44,6 +44,7 @@ class MyApp extends StatelessWidget {
             GetPage(
               name: authentifications,
               page: () => AuthenticationPage(),
+              
             ),
           ],
           title: "FORMATION EN LIGNE",

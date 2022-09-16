@@ -69,5 +69,5 @@ Navigator localNavigator() => Navigator(
 
       key: navigationController.navigatorKey,
       onGenerateRoute: generateRoute,
-      initialRoute: authentifications,
+      initialRoute: home,
     );
