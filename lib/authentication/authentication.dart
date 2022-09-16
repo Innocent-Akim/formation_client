@@ -3,8 +3,10 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:formation_client/controllers/MenuController.dart';
+import 'package:formation_client/controllers/builderTextField.dart';
 import 'package:formation_client/controllers/style.dart';
 import 'package:formation_client/response/responsive.dart';
+import 'package:line_icons/line_icons.dart';
 
 class AuthenticationPage extends StatefulWidget {
   const AuthenticationPage({Key key}) : super(key: key);
@@ -283,34 +285,14 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                             ),
                           ],
                         ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                      
                         SizedBox(height: 15),
-                        TextFormField(
-                          obscureText: isvisible,
-                          controller: password,
-                          decoration: InputDecoration(
-                            labelText: "Mot depasse",
-                            hintText: "12345",
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            suffixIcon: IconButton(
-                                icon: Icon(
-                                  isvisible
-                                      ? FontAwesomeIcons.eyeSlash
-                                      : FontAwesomeIcons.eye,
-                                  size: 15,
-                                ),
-                                onPressed: () {
-                                  setState(() {
-                                    isvisible = !isvisible;
-                                  });
-                                }),
-                          ),
+                        buildTextField(
+                          controller: null,
+                          hintText: "Entrez votre nom",
+                          labelText: "Nom",
+                          prefixIcon: Icon(LineIcons.user),
                         ),
+                        SizedBox(height: 15),
                         SizedBox(
                           height: 15,
                         ),
