@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formation_client/app/authentificate/bloc/authenticate_bloc.dart';
+import 'package:formation_client/app/cours/cours_bloc.dart';
 import 'package:formation_client/constants.dart';
 import 'package:formation_client/router/activity_navigator.dart';
 import 'package:get/get.dart';
@@ -27,7 +28,8 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => IdentificationBloc()),
-            BlocProvider(create: (context) => AuthenticateBloc()),
+        BlocProvider(create: (context) => AuthenticateBloc()),
+        BlocProvider(create: (context) => CoursBloc()),
       ],
       child: MultiProvider(
         providers: [
@@ -46,7 +48,6 @@ class MyApp extends StatelessWidget {
             GetPage(
               name: authentifications,
               page: () => AuthenticationPage(),
-              
             ),
           ],
           title: "FORMATION EN LIGNE",
