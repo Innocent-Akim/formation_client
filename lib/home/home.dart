@@ -13,6 +13,7 @@ class Home extends StatefulWidget {
 }
 
 class _StateBody extends State<Home> {
+  Responsive respo;
   @override
   Widget build(BuildContext context) {
     final orientation = MediaQuery.of(context).orientation;
@@ -20,46 +21,60 @@ class _StateBody extends State<Home> {
       // backgroundColor: Colors.blue,
       body: Column(
         children: [
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * .3,
-            color: primaryColor,
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height * .3,
+              color: primaryColor,
+              child: Center(
+                child: Container(
+                  // scrollDirection: Axis.horizontal,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Votre avenir commence ici",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 30,
-                              color: Colors.white,
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Votre avenir commence ici",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 30,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                Text(
+                                  "Apprenez à apprendre, découvrez les compétences de demain, et prenez votre carrière en main.",
+                                  textAlign: TextAlign.justify,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 18,
+                                    color: Colors.white,
+                                    leadingDistribution:
+                                        TextLeadingDistribution.proportional,
+                                    wordSpacing: 0.0,
+                                    textBaseline: TextBaseline.alphabetic,
+                                  ),
+                                )
+                              ],
                             ),
-                          ),
-                          Text(
-                            "Apprenez à apprendre, découvrez les compétences de demain, et prenez votre carrière en main.",
-                            style: TextStyle(
-                              fontWeight: FontWeight.normal,
-                              fontSize: 18,
-                              color: Colors.white,
-                            ),
-                          )
-                        ],
+                            SvgPicture.asset(
+                              "assets/images/reading.svg",
+                              fit: BoxFit.cover,
+                              width: MediaQuery.of(context).size.width * .2,
+                            )
+                          ],
+                        ),
                       ),
-                      SvgPicture.asset(
-                        "assets/images/reading.svg",
-                        fit: BoxFit.cover,
-                        width: MediaQuery.of(context).size.width * .2,
-                      )
                     ],
                   ),
-                ],
+                ),
               ),
             ),
           ),
@@ -68,12 +83,12 @@ class _StateBody extends State<Home> {
                 itemCount: 10,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: (orientation == Orientation.portrait)
-                        ? 2
+                        ? 1
                         : Responsive.isDesktop(context)
                             ? 3
-                            : Responsive.isTablet(context)
-                                ? 2
-                                : 1),
+                            : MediaQuery.of(context).size.width <= 850
+                                ? 1
+                                : 2),
                 itemBuilder: (context, index) {
                   return CardCours();
                 }),
