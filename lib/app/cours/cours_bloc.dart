@@ -1,11 +1,13 @@
 import 'package:bloc/bloc.dart';
 import 'package:formation_client/app/datasource/Api_source.dart';
+import 'package:formation_client/model/response/response_cours.dart';
 import 'package:meta/meta.dart';
 part 'cours_event.dart';
 part 'cours_state.dart';
 
 class CoursBloc extends Bloc<CoursEvent, CoursState> {
   CoursBloc() : super(CoursInitial());
+  ResponseCours course;
   @override
   Stream<CoursState> mapEventToState(
     CoursEvent event,
@@ -14,6 +16,8 @@ class CoursBloc extends Bloc<CoursEvent, CoursState> {
       try {
         yield CoursProgress();
         var resultat = await ApiSource.getInstance.findCours();
+        course = resultat;
+        yield CoursLoaded();
         if (resultat.contents.length > 0) {
           yield CoursSucces(data: resultat);
         } else {

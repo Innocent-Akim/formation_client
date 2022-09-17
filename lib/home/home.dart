@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:formation_client/app/cours/cours_bloc.dart';
 import 'package:formation_client/response/responsive.dart';
 
 import '../constants.dart';
@@ -13,7 +16,14 @@ class Home extends StatefulWidget {
 }
 
 class _StateBody extends State<Home> {
-  Responsive respo;
+  var bloc;
+  @override
+  void initState() {
+    bloc = BlocProvider.of<CoursBloc>(context);
+    bloc.add(CoursFind());
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final orientation = MediaQuery.of(context).orientation;
@@ -78,20 +88,50 @@ class _StateBody extends State<Home> {
               ),
             ),
           ),
-          Expanded(
-            child: GridView.builder(
-                itemCount: 10,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: (orientation == Orientation.portrait)
-                        ? 1
-                        : Responsive.isDesktop(context)
-                            ? 3
-                            : MediaQuery.of(context).size.width <= 850
-                                ? 1
-                                : 2),
-                itemBuilder: (context, index) {
-                  return CardCours();
-                }),
+          BlocBuilder<CoursBloc, CoursState>(
+            builder: (context, state) {
+              if (state is CoursProgress) {
+                return Center(
+                  child: SpinKitSpinningLines(
+                    color: Colors.red,
+                  ),
+                );
+              }
+              if (state is CoursFailed) {
+                return Text("${state.ERROR.toString()}");
+              }
+              if (state is CoursEmpty) {
+                return Center(
+                  child: BuildMessage(
+                    sizeImage: 300,
+                    sizeText: 16,
+                  ),
+                );
+              }
+              if (state is CoursLoading && bloc.course.contents.isEmpty) {
+                return Center(
+                  child: SpinKitSpinningLines(
+                    color: Colors.red,
+                  ),
+                );
+              } else {
+                return Expanded(
+                  child: GridView.builder(
+                      itemCount: bloc.course.contents.length,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: (orientation == Orientation.portrait)
+                              ? 1
+                              : Responsive.isDesktop(context)
+                                  ? 3
+                                  : MediaQuery.of(context).size.width <= 850
+                                      ? 1
+                                      : 2),
+                      itemBuilder: (context, index) {
+                        return CardCours();
+                      }),
+                );
+              }
+            },
           )
         ],
       ),
