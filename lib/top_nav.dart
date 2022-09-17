@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:formation_client/router/mypreferences.dart';
 import 'constants.dart';
 import 'controllers/MenuController.dart';
 import 'controllers/style.dart';
 import 'response/responsive.dart';
 
-AppBar topNavigationBar(
-        BuildContext context, GlobalKey<ScaffoldState> key) =>
+AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) =>
     AppBar(
       leading: !Responsive.isMobile(context)
           ? Row(
@@ -74,7 +74,7 @@ AppBar topNavigationBar(
               width: 24,
             ),
             CustomText(
-              text: "AKIM",
+              text: "${MyPreferences.USER_CONNECTER}",
               color: lightGrey,
             ),
             SizedBox(
@@ -94,13 +94,9 @@ AppBar topNavigationBar(
                   child: CircleAvatar(
                       backgroundColor: light,
                       child: Icon(
-                              Icons.person_outline,
-                              color: lightGrey,
-                            )
-                      
-                      
-                      
-                    )),
+                        Icons.person_outline,
+                        color: lightGrey,
+                      ))),
             ),
           ],
         ),

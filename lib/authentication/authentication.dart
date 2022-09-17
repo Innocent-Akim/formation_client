@@ -4,6 +4,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 // import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:formation_client/app/authentificate/bloc/authenticate_bloc.dart';
 import 'package:formation_client/app/identifications/bloc/identification_bloc.dart';
 import 'package:formation_client/controllers/MenuController.dart';
 import 'package:formation_client/controllers/builderTextField.dart';
@@ -43,9 +44,11 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
   var telephone = TextEditingController();
   bool isProgress = false;
   var bloc;
+  var auth;
   @override
   void initState() {
     super.initState();
+    auth = BlocProvider.of<AuthenticateBloc>(context);
     bloc = BlocProvider.of<IdentificationBloc>(context);
   }
 
@@ -101,160 +104,195 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
             constraints: BoxConstraints(maxWidth: 400),
             padding: EdgeInsets.all(24),
             child: Container(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    width: Responsive.isDesktop(context)
-                        ? MediaQuery.of(context).size.width * .25
-                        : MediaQuery.of(context).size.width,
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(right: 12),
-                              child: Image.asset("assets/images/logo.png"),
-                            ),
-                            Expanded(child: Container()),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 30,
-                        ),
-                        Row(
-                          children: [
-                            Text("Login",
-                                style: TextStyle(
-                                    fontSize: 30, fontWeight: FontWeight.bold)),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          children: [
-                            CustomText(
-                              text: "Formation en ligne",
-                              color: lightGrey,
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        TextFormField(
-                          validator: (val) => val != null && val.isEmpty
-                              ? "le champ est required"
-                              : null,
-                          controller: username,
-                          decoration: InputDecoration(
-                            labelText: "Nom d'utilisateur",
-                            hintText: "gentilakili98@gmail.com",
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(5)),
+              child: BlocListener<AuthenticateBloc, AuthenticateState>(
+                listener: (context, state) {
+                  if (state is AuthenticateProgress) {
+                    setState(() {
+                      isLoading = true;
+                      FocusScope.of(context).requestFocus(FocusNode());
+                    });
+                  }
+
+                  if (state is AuthenticateFailed) {
+                    setState(() {
+                      isLoading = false;
+                      SnackBar(
+                              content: Text(
+                                state.body,
+                                style: TextStyle(fontSize: 16),
+                              ),
+                              backgroundColor: Colors.red)
+                          .show(context);
+                    });
+                  }
+                  if (state is AuthenticateSucces) {
+                    setState(() {
+                      username.clear();
+                      password.clear();
+                      Get.offAllNamed(home);
+                    });
+                  }
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: Responsive.isDesktop(context)
+                          ? MediaQuery.of(context).size.width * .25
+                          : MediaQuery.of(context).size.width,
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(right: 12),
+                                child: Image.asset("assets/images/logo.png"),
+                              ),
+                              Expanded(child: Container()),
+                            ],
                           ),
-                          onFieldSubmitted: (_) {},
-                        ),
-                        SizedBox(height: 15),
-                        TextFormField(
-                          obscureText: isvisible,
-                          controller: password,
-                          decoration: InputDecoration(
-                            labelText: "Mot depasse",
-                            hintText: "12345",
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            suffixIcon: IconButton(
-                                icon: Icon(
-                                  isvisible
-                                      ? FontAwesomeIcons.eyeSlash
-                                      : FontAwesomeIcons.eye,
-                                  size: 15,
-                                ),
-                                onPressed: () {
-                                  setState(() {
-                                    isvisible = !isvisible;
-                                  });
-                                }),
+                          SizedBox(
+                            height: 30,
                           ),
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                Checkbox(value: true, onChanged: (value) {}),
-                                CustomText(
-                                  text: "Remeber Me",
-                                ),
-                              ],
+                          Row(
+                            children: [
+                              Text("Connectez-vous",
+                                  style: TextStyle(
+                                      fontSize: 30,
+                                      fontWeight: FontWeight.bold)),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            children: [
+                              CustomText(
+                                text: "Formation en ligne",
+                                color: lightGrey,
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          TextFormField(
+                            validator: (val) => val != null && val.isEmpty
+                                ? "le champ est required"
+                                : null,
+                            controller: username,
+                            decoration: InputDecoration(
+                              labelText: "Nom d'utilisateur",
+                              hintText: "gentilakili98@gmail.com",
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(5)),
                             ),
-                            CustomText(
-                              text: "Mot de passe oublié ?",
-                              color: active,
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        InkWell(
-                          onTap: () {
-                            setState(() {});
-                            Get.offAllNamed(home);
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: Color(0xFF007EE5),
-                                borderRadius: BorderRadius.circular(5)),
-                            alignment: Alignment.center,
-                            width: double.maxFinite,
-                            padding: EdgeInsets.symmetric(vertical: 16),
-                            child: Center(
-                              child: isLoading
-                                  ? SpinKitSpinningLines(
-                                      color: Colors.white,
-                                      size: 18,
-                                    )
-                                  : CustomText(
-                                      text: "Connexion",
-                                      color: Colors.white,
-                                    ),
+                            onFieldSubmitted: (_) {},
+                          ),
+                          SizedBox(height: 15),
+                          TextFormField(
+                            obscureText: isvisible,
+                            controller: password,
+                            decoration: InputDecoration(
+                              labelText: "Mot depasse",
+                              hintText: "12345",
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              suffixIcon: IconButton(
+                                  icon: Icon(
+                                    isvisible
+                                        ? LineIcons.eyeSlash
+                                        : LineIcons.eye,
+                                    size: 15,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      isvisible = !isvisible;
+                                    });
+                                  }),
                             ),
                           ),
-                        ),
-                        SizedBox(height: 15),
-                        GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              isvisibleChanged = !isvisibleChanged;
-                            });
-                          },
-                          child: RichText(
-                            text: TextSpan(
-                              children: [
-                                TextSpan(
-                                    text: "Do not have admin credentials? "),
-                                TextSpan(
-                                  text: !isvisibleChanged
-                                      ? "S'inscrire"
-                                      : "Authentifications",
-                                  style: TextStyle(color: active),
-                                  onEnter: (event) {},
-                                )
-                              ],
+                          SizedBox(
+                            height: 15,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Checkbox(value: true, onChanged: (value) {}),
+                                  CustomText(
+                                    text: "Remeber Me",
+                                  ),
+                                ],
+                              ),
+                              CustomText(
+                                text: "Forgat password ?",
+                                color: active,
+                              )
+                            ],
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                auth.add(AuthenticateLogin(body: {
+                                  'username': username.text.trim(),
+                                  'password': password.text.trim(),
+                                }));
+                              });
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Color(0xFF007EE5),
+                                  borderRadius: BorderRadius.circular(5)),
+                              alignment: Alignment.center,
+                              width: double.maxFinite,
+                              padding: EdgeInsets.symmetric(vertical: 16),
+                              child: Center(
+                                child: isLoading
+                                    ? SpinKitSpinningLines(
+                                        color: Colors.white,
+                                        size: 18,
+                                      )
+                                    : CustomText(
+                                        text: "Connexion",
+                                        color: Colors.white,
+                                      ),
+                              ),
                             ),
                           ),
-                        )
-                      ],
+                          SizedBox(height: 15),
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                isvisibleChanged = !isvisibleChanged;
+                              });
+                            },
+                            child: RichText(
+                              text: TextSpan(
+                                children: [
+                                  TextSpan(
+                                      text: "Do not have admin credentials? "),
+                                  TextSpan(
+                                    text: !isvisibleChanged
+                                        ? "S'inscrire"
+                                        : "Authentifications",
+                                    style: TextStyle(color: active),
+                                    onEnter: (event) {},
+                                  )
+                                ],
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

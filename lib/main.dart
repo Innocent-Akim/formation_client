@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formation_client/app/authentificate/bloc/authenticate_bloc.dart';
 import 'package:formation_client/constants.dart';
 import 'package:formation_client/router/activity_navigator.dart';
 import 'package:get/get.dart';
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => IdentificationBloc()),
+            BlocProvider(create: (context) => AuthenticateBloc()),
       ],
       child: MultiProvider(
         providers: [

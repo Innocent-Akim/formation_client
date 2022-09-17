@@ -34,6 +34,8 @@ dependencies:
   http: ^0.13.3
   snack: ^2.0.0
   motion_toast: ^2.3.3
+  video_player:
+  flutter_draggable_gridview:
   # animated_toast_list: 
   # flutter_flushbar:
   
