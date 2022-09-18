@@ -20,6 +20,7 @@ class AuthenticateBloc extends Bloc<AuthenticateEvent, AuthenticateState> {
         yield AuthenticateProgress();
         var resultat = await ApiSource.getInstance.login(event.body);
         if (resultat.msg == 'succes') {
+          MyPreferences.TOKEN = "Bearer ${resultat.token}";
           MyPreferences.USER_CONNECTER = resultat.contents.username;
           MyPreferences.ID_USER_CONNECTER = resultat.contents.id;
           MyPreferences.REF_ENTREPRISE = resultat.contents.refEntreprise;

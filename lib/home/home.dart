@@ -3,7 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:formation_client/app/cours/cours_bloc.dart';
+import 'package:formation_client/learning/loarning.dart';
 import 'package:formation_client/response/responsive.dart';
+import 'package:formation_client/router/activity_navigator.dart';
+import 'package:get/get.dart';
 
 import '../constants.dart';
 import 'components/card_cours.dart';
@@ -88,50 +91,75 @@ class _StateBody extends State<Home> {
               ),
             ),
           ),
-          BlocBuilder<CoursBloc, CoursState>(
-            builder: (context, state) {
-              if (state is CoursProgress) {
-                return Center(
-                  child: SpinKitSpinningLines(
-                    color: Colors.red,
-                  ),
-                );
-              }
-              if (state is CoursFailed) {
-                return Text("${state.ERROR.toString()}");
-              }
-              if (state is CoursEmpty) {
-                return Center(
-                  child: BuildMessage(
-                    sizeImage: 300,
-                    sizeText: 16,
-                  ),
-                );
-              }
-              if (state is CoursLoading && bloc.course.contents.isEmpty) {
-                return Center(
-                  child: SpinKitSpinningLines(
-                    color: Colors.red,
-                  ),
-                );
-              } else {
-                return Expanded(
-                  child: GridView.builder(
-                      itemCount: bloc.course.contents.length,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: (orientation == Orientation.portrait)
-                              ? 1
-                              : Responsive.isDesktop(context)
-                                  ? 3
-                                  : MediaQuery.of(context).size.width <= 850
-                                      ? 1
-                                      : 2),
-                      itemBuilder: (context, index) {
-                        return CardCours();
-                      }),
-                );
-              }
-            },
+          Expanded(
+            child: BlocBuilder<CoursBloc, CoursState>(
+              bloc: bloc,
+              builder: (context, state) {
+                if (state is CoursProgress) {
+                  return Center(
+                    child: SpinKitSpinningLines(
+                      color: Colors.red,
+                    ),
+                  );
+                }
+                if (state is CoursFailed) {
+                  return Text("${state.ERROR.toString()}");
+                }
+                if (state is CoursEmpty) {
+                  return Center(
+                    child: BuildMessage(
+                      sizeImage: 300,
+                      sizeText: 16,
+                    ),
+                  );
+                }
+                if (state is CoursLoading) {
+                  return Center(
+                    child: SpinKitSpinningLines(
+                      color: Colors.red,
+                    ),
+                  );
+                }
+
+                if (state is CoursSucces) {
+                  return Expanded(
+                    child: GridView.builder(
+                        itemCount: state.data.contents.length,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: (orientation ==
+                                    Orientation.portrait)
+                                ? 1
+                                : Responsive.isDesktop(context)
+                                    ? 3
+                                    : MediaQuery.of(context).size.width <= 850
+                                        ? 1
+                                        : 2),
+                        itemBuilder: (context, index) {
+                          return InkWell(
+                            onTap: () {
+                              setState(() {
+                                Navigator.of(context)
+                                    .push(MaterialPageRoute(builder: (context) {
+                                  return Loarding(
+                                    data: state.data.contents[index],
+                                  );
+                                }));
+                                // Get.offAllNamed(learnig);
+                              });
+                            },
+                            child: CardCours(
+                              logo: state.data.contents[index].logo,
+                              resume: state.data.contents[index].resume,
+                              title: state.data.contents[index].title,
+                            ),
+                          );
+                        }),
+                  );
+                } else {
+                  return Container();
+                }
+              },
+            ),
           )
         ],
       ),

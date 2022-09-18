@@ -15,16 +15,7 @@ class EntityCours {
   String logo;
   String updatedAt;
   final categoryEntity;
-
-  // "title": "CHANSON",
-  // "resume": "INITIATION A LA PROGRAMMATION ORIENT OBJECT",
-  // "dateFin": "2022-03-12T00:00:00.000Z",
-  // "dateCreation": "2022-08-13T00:00:00.000Z",
-  // "filename": "doc-1661343155617.mp4",
-  // "originalname": "Ada Ehi - Congratulations ft Buchi _ The Official Video.mp4",
-  // "idCategory": "6306130c710f1a2b46f855fd",
-  // "createdAt": "2022-08-24T12:12:37.706Z",
-  // "updatedAt": "2022-08-24T12:12:37.706Z",
+  
   EntityCours({
     this.id,
     this.title,

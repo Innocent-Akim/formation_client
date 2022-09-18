@@ -16,8 +16,9 @@ class CoursBloc extends Bloc<CoursEvent, CoursState> {
       try {
         yield CoursProgress();
         var resultat = await ApiSource.getInstance.findCours();
-        course = resultat;
+        print(resultat);
         yield CoursLoaded();
+        course = resultat;
         if (resultat.contents.length > 0) {
           yield CoursSucces(data: resultat);
         } else {

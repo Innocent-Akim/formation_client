@@ -14,6 +14,7 @@ import '404/error.dart';
 import 'app/identifications/bloc/identification_bloc.dart';
 import 'authentication/authentication.dart';
 import 'controllers/MenuController.dart';
+import 'learning/loarning.dart';
 import 'main/main_screen.dart';
 
 void main() {
@@ -45,6 +46,7 @@ class MyApp extends StatelessWidget {
           ),
           getPages: [
             GetPage(name: home, page: () => MainScreen()),
+            GetPage(name: learnig, page: () => Loarding()),
             GetPage(
               name: authentifications,
               page: () => AuthenticationPage(),

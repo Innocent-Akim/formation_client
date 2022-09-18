@@ -33,21 +33,21 @@ class ApiSource {
           },
           body: body);
       if (response.statusCode == 200)
-      return ResponseLogin.fromJson(response.body);
+        return ResponseLogin.fromJson(response.body);
     } catch (_) {
       print(_.toString());
     }
     return null;
   }
-    Future<ResponseCours> findCours() async {
+
+  Future<ResponseCours> findCours() async {
     try {
       var url = "${baseUrl}cours/find";
       var response = await http.get(Uri.parse(url), headers: <String, String>{
-        "Accept": "application/json",
+        'Content-Type': 'application/json',
         'Authorization': MyPreferences.TOKEN,
       });
 
-      print(response.body);
       return ResponseCours.fromJson(response.body);
     } catch (_) {
       print("--------ERROR-------> ${_.toString()}");

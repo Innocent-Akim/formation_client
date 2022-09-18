@@ -1,3 +1,5 @@
+import 'package:formation_client/learning/loarning.dart';
+
 const rootRoute = "/";
 const authentifications = "/authentications";
 const authentifcationsName = "Authentifications";
@@ -7,6 +9,9 @@ const cours = "/course";
 const coursName = "Cours";
 const home = "/home";
 const homeName = "Home";
+const learnig = "/loarning";
+const learnigName = "Learnig";
+
 class MenuItem {
   final String name;
   final String route;
@@ -17,5 +22,6 @@ List<MenuItem> sideMenuItemRoutes = [
   MenuItem(authentifcationsName, authentifications),
   MenuItem(inscriptionName, inscription),
   MenuItem(coursName, cours),
-    MenuItem(homeName, home),
+  MenuItem(homeName, home),
+    MenuItem(learnigName, learnig),
 ];

@@ -3,6 +3,11 @@ import 'package:formation_client/constants.dart';
 import 'package:line_icons/line_icons.dart';
 
 class CardCours extends StatelessWidget {
+  final title;
+  final resume;
+  final logo;
+
+  const CardCours({Key key, this.title, this.resume, this.logo}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -24,14 +29,12 @@ class CardCours extends StatelessWidget {
                     Text(
                       "Développement - Cours",
                       style: TextStyle(
-                        fontWeight: FontWeight.normal,
-                        color: Colors.green
-                      ),
+                          fontWeight: FontWeight.normal, color: Colors.green),
                     ),
                   ],
                 ),
                 Text(
-                  "Apprenez à créer votre site web avec HTML5 et CSS3",
+                  "${title}",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 20.0,
@@ -65,7 +68,7 @@ class CardCours extends StatelessWidget {
                   ],
                 ),
                 Text(
-                  "Vous rêvez d'apprendre à créer des sites web ? Débutez avec ce cours qui vous enseignera tout ce qu'il faut savoir sur le développement de sites web en HTML5 et CSS3 !",
+                  "${resume}",
                   style: TextStyle(
                     fontSize: 16,
                     leadingDistribution: TextLeadingDistribution.proportional,
@@ -74,10 +77,14 @@ class CardCours extends StatelessWidget {
                   ),
                 ),
                 Expanded(
-                  child: Image.asset(
-                    "assets/images/react.png",
-                    fit: BoxFit.cover,
-                  ),
+                  child: logo==null?  Image.asset(
+                          "assets/images/react.png",
+                          fit: BoxFit.cover,
+                        ) :
+                      Image.network(
+                        "${logo}",
+                        fit: BoxFit.cover,
+                      ),
                 )
               ],
             ),

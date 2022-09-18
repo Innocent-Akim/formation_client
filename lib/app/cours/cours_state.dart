@@ -14,7 +14,7 @@ class CoursProgress extends CoursState {}
 class CoursEmpty extends CoursState {}
 
 class CoursSucces extends CoursState {
-  final data;
+  final  data;
   CoursSucces({this.data});
 }
 
