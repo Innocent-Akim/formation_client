@@ -58,16 +58,18 @@ class _StateBody extends State<Home> {
                                   "Votre avenir commence ici",
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 30,
+                                    fontSize:
+                                        Responsive.isDesktop(context) ? 30 : 20,
                                     color: Colors.white,
                                   ),
                                 ),
                                 Text(
-                                  "Apprenez à apprendre, découvrez les compétences de demain, et prenez votre carrière en main.",
+                                  "Apprenez à apprendre, découvrez les compétences",
                                   textAlign: TextAlign.justify,
                                   style: TextStyle(
                                     fontWeight: FontWeight.normal,
-                                    fontSize: 18,
+                                    fontSize:
+                                        Responsive.isDesktop(context) ? 18 : 12,
                                     color: Colors.white,
                                     leadingDistribution:
                                         TextLeadingDistribution.proportional,
@@ -77,11 +79,14 @@ class _StateBody extends State<Home> {
                                 )
                               ],
                             ),
-                            SvgPicture.asset(
-                              "assets/images/reading.svg",
-                              fit: BoxFit.cover,
-                              width: MediaQuery.of(context).size.width * .2,
-                            )
+                            Responsive.isDesktop(context)
+                                ? SvgPicture.asset(
+                                    "assets/images/reading.svg",
+                                    fit: BoxFit.cover,
+                                    width:
+                                        MediaQuery.of(context).size.width * .2,
+                                  )
+                                : Text("")
                           ],
                         ),
                       ),

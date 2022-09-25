@@ -16,7 +16,7 @@ dependencies:
   cupertino_icons: ^1.0.3
   flutter_bloc: ^7.1.0
   get: 
-  shared_preferences_web: ^2.0.4
+  shared_preferences:
   provider: ^5.0.0
   path: ^1.8.0
   date_range_picker: ^1.0.7

@@ -31,10 +31,8 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
   bool isvisibleChanged = false;
   final _formKey = GlobalKey<FormState>();
   var username = TextEditingController();
-
   var passwordChange = TextEditingController();
   var genre;
-
   var password = TextEditingController();
   var dateNaissaissance = TextEditingController();
   var nom = TextEditingController();
@@ -168,7 +166,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                           Row(
                             children: [
                               CustomText(
-                                text: "Formation en ligne",
+                                text: "GENEALOGIE",
                                 color: lightGrey,
                               ),
                             ],
@@ -427,28 +425,28 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                               ),
                             ],
                           ),
-                          SizedBox(height: 15),
+                          SizedBox(height: 8),
                           buildTextField(
                             controller: nom,
                             hintText: "Entrez votre nom",
                             labelText: "Nom",
                             prefixIcon: Icon(LineIcons.user),
                           ),
-                          SizedBox(height: 15),
+                          SizedBox(height: 8),
                           buildTextField(
                             controller: postnom,
                             hintText: "Entrez votre Postnom",
                             labelText: "Postnom ",
                             prefixIcon: Icon(LineIcons.user),
                           ),
-                          SizedBox(height: 15),
+                          SizedBox(height: 8),
                           buildTextField(
                             controller: prenom,
                             hintText: "Entrez votre Prénom",
                             labelText: "Prénom ",
                             prefixIcon: Icon(LineIcons.user),
                           ),
-                          SizedBox(height: 15),
+                          SizedBox(height: 8),
                           cbList(
                               valeur: genre,
                               title: "genre",
@@ -465,7 +463,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                                       ? LineIcons.male
                                       : LineIcons.female,
                                   color: primaryColor)),
-                          SizedBox(height: 15),
+                          SizedBox(height: 8),
                           buildTextField(
                               controller: dateNaissaissance,
                               hintText: "Entrez la date naissance",
@@ -476,14 +474,14 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                               onTap: () {
                                 _selectDate(context);
                               }),
-                          SizedBox(height: 15),
+                          SizedBox(height: 8),
                           buildTextField(
                             controller: telephone,
                             hintText: "Entrez le numéro de téléphone",
                             labelText: "Telephone ",
                             prefixIcon: Icon(LineIcons.phone),
                           ),
-                          SizedBox(height: 15),
+                          SizedBox(height: 8),
                           buildTextField(
                             controller: email,
                             hintText: "Entrez votre adresse mail",
@@ -491,7 +489,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                             textInputType: TextInputType.emailAddress,
                             prefixIcon: Icon(Icons.mail_outline_outlined),
                           ),
-                          SizedBox(height: 15),
+                          SizedBox(height: 8),
                           buildTextField(
                             isvisible: true,
                             controller: passwordChange,
@@ -499,7 +497,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                             labelText: "Mot de passe ",
                             prefixIcon: Icon(LineIcons.lock),
                           ),
-                          SizedBox(height: 15),
+                          SizedBox(height: 8),
                           InkWell(
                             onTap: () {
                               setState(() {
@@ -523,7 +521,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                               // Get.offAllNamed(dashboardPageRoute);
                             },
                             child: Container(
-                              height: 50,
+                              height: 45,
                               decoration: BoxDecoration(
                                   color: Color(0xFF007EE5),
                                   borderRadius: BorderRadius.circular(5)),

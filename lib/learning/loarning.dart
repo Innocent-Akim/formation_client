@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:formation_client/constants.dart';
 import 'package:formation_client/response/responsive.dart';
+import 'package:http/http.dart';
 import 'package:video_player/video_player.dart';
 
 class Loarding extends StatefulWidget {
@@ -15,14 +16,22 @@ class Loarding extends StatefulWidget {
 
 class _StateBody extends State<Loarding> {
   VideoPlayerController _controller;
+  Duration _durationPosition;
+  Duration _durationLength;
+  double volume = 0;
 
   @override
   void initState() {
     super.initState();
     _controller = VideoPlayerController.network(widget.data.filename)
-      ..initialize().then((_) {
+      ..addListener(() {
         setState(() {
-          print("object");
+          _durationPosition = _controller.value.position;
+        });
+      })
+      ..initialize().then((value) {
+        setState(() {
+          _durationLength = _controller.value.duration;
         });
       });
   }
@@ -31,6 +40,16 @@ class _StateBody extends State<Loarding> {
   void dispose() {
     super.dispose();
     _controller.dispose();
+  }
+
+  String getConverteTime(Duration duration) {
+    final parstminute = duration.inMinutes % 60;
+    final minute =
+        parstminute < 10 ? "0${parstminute}" : parstminute.toString();
+    final secondePast = duration.inSeconds % 60;
+    final second = secondePast < 10 ? '0$secondePast' : secondePast.toString();
+
+    return "$minute:$second";
   }
 
   @override
@@ -52,11 +71,66 @@ class _StateBody extends State<Loarding> {
         child: Container(
           child: Column(
             children: [
+              if (_controller.value.isInitialized) ...[
+                AspectRatio(
+                  aspectRatio: _controller.value.aspectRatio,
+                  child: VideoPlayer(_controller),
+                ),
+                VideoProgressIndicator(
+                  _controller,
+                  allowScrubbing: true,
+                  padding: EdgeInsets.all(8),
+                )
+              ],
+              Row(
+                children: <Widget>[
+                  IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _controller.value.isPlaying
+                            ? _controller.pause()
+                            : _controller.play();
+                      });
+                    },
+                    icon: Icon(
+                      _controller.value.isPlaying
+                          ? Icons.pause
+                          : Icons.play_arrow,
+                    ),
+                  ),
+                  Text(
+                    "${getConverteTime(_durationPosition)} / ${getConverteTime(_durationLength)}",
+                    style: TextStyle(
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                  Icon(Icons.volume_mute),
+                  Slider(
+                      min: 0,
+                      max: 1,
+                      value: volume,
+                      onChanged: (_volume) {
+                        setState(() {
+                          volume = _volume;
+                          _controller.setVolume(_volume);
+                        });
+                      }),
+                  Spacer(),
+                  IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _controller.setLooping(!_controller.value.isLooping);
+                      });
+                    },
+                    icon: Icon(Icons.loop_outlined),
+                  )
+                ],
+              ),
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Container(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
                         '${widget.data.title}',
@@ -76,32 +150,8 @@ class _StateBody extends State<Loarding> {
                   ),
                 ),
               ),
-              Container(
-                width:Responsive.isDesktop(context) ?MediaQuery.of(context).size.width * .5: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.width * .4,
-                child: Center(
-                  child: _controller.value.isInitialized
-                      ? AspectRatio(
-                          aspectRatio: _controller.value.aspectRatio,
-                          child: VideoPlayer(_controller),
-                        )
-                      : Container(),
-                ),
-              ),
             ],
           ),
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            _controller.value.isPlaying
-                ? _controller.pause()
-                : _controller.play();
-          });
-        },
-        child: Icon(
-          _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
         ),
       ),
     );
