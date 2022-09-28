@@ -38,7 +38,8 @@ dependencies:
   flutter_draggable_gridview:
   # animated_toast_list: 
   # flutter_flushbar:
-  
+  js: ^0.6.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
