@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formation_client/app/addParticipant/participant_bloc.dart';
 import 'package:formation_client/app/authentificate/bloc/authenticate_bloc.dart';
 import 'package:formation_client/app/cours/cours_bloc.dart';
 import 'package:formation_client/constants.dart';
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => IdentificationBloc()),
         BlocProvider(create: (context) => AuthenticateBloc()),
         BlocProvider(create: (context) => CoursBloc()),
+        BlocProvider(create: (context) => ParticipantBloc()),
       ],
       child: MultiProvider(
         providers: [

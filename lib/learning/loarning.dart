@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formation_client/app/addParticipant/participant_bloc.dart';
 import 'package:formation_client/constants.dart';
 import 'package:video_player/video_player.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
@@ -22,13 +24,14 @@ class _StateBody extends State<Loarding> {
   final GlobalKey<SfPdfViewerState> _pdfViewerKey = GlobalKey();
   PdfViewerController pdfViewerController;
   OverlayEntry _overlayEntry;
+  ParticipantBloc bloc;
 
   @override
   void initState() {
     super.initState();
+    bloc = BlocProvider.of<ParticipantBloc>(context);
     init();
     pdfViewerController = PdfViewerController();
-
   }
 
   @override
@@ -236,7 +239,6 @@ class _StateBody extends State<Loarding> {
                     ),
         ),
       ),
-      //  bottomNavigationBar: ,
     );
   }
 }

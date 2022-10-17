@@ -163,7 +163,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                           Row(
                             children: [
                               CustomText(
-                                text: "GENEALOGIE",
+                                text: "FORMATION EN LIGNE",
                                 color: lightGrey,
                               ),
                             ],
