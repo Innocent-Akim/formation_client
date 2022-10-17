@@ -18,6 +18,7 @@ class ParticipantBloc extends Bloc<ParticipantEvent, ParticipantState> {
       emit(ParticipantInitial());
       var response = await ApiSource.getInstance.addParticipant(event.body);
       var result = await jsonDecode(response.body);
+      print(result['msg']);
       if (result['token'] == "OK") {
         emit(ParticipantSucces(message: result['msg']));
       } else {

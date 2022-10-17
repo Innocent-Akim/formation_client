@@ -27,8 +27,9 @@ class _StateBody extends State<Home> {
   bool loading = false;
   @override
   void initState() {
-    bloc = BlocProvider.of<CoursBloc>(context);
     stateManage = BlocProvider.of<ParticipantBloc>(context);
+    bloc = BlocProvider.of<CoursBloc>(context);
+
     bloc.add(CoursFind());
     super.initState();
   }
@@ -163,53 +164,7 @@ class _StateBody extends State<Home> {
                               logo: state.data.contents[index].logo,
                               resume: state.data.contents[index].resume,
                               title: state.data.contents[index].title,
-                              widget: Positioned(
-                                  bottom: 10,
-                                  left: 5,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      BlocListener<ParticipantBloc,
-                                          ParticipantState>(
-                                        bloc: stateManage,
-                                        listener: (context, state) {
-                                          if (state is ParticipantInitial) {
-                                            setState(() {
-                                              loading = true;
-                                            });
-                                          }
-                                          if (state is ParticipantSucces) {
-                                            setState(() {
-                                              loading = false;
-                                            });
-                                          }
-                                        },
-                                        child: InkWell(
-                                          onTap: () {
-                                            setState(() {
-                                              stateManage
-                                                  .add(ParticipantAdd(body: {
-                                                "idCours": state
-                                                    .data.contents[index].id,
-                                                "idParticiper": MyPreferences
-                                                    .ID_USER_CONNECTER
-                                              }));
-                                            });
-                                          },
-                                          child: loading
-                                              ? SpinKitFadingCircle(
-                                                  color: primaryColor,
-                                                  size: 20,
-                                                )
-                                              : CustomText(
-                                                  text: "S'inscrire à ce cours",
-                                                  color: Colors.redAccent,
-                                                  weight: FontWeight.normal,
-                                                ),
-                                        ),
-                                      ),
-                                    ],
-                                  )),
+                              
                             ),
                           );
                         }),

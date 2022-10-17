@@ -6,6 +6,7 @@ import 'package:formation_client/constants.dart';
 import 'package:formation_client/controllers/MenuController.dart';
 import 'package:formation_client/router/mypreferences.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:snack/snack.dart';
 
 class CardCours extends StatefulWidget {
   final title;
@@ -14,7 +15,8 @@ class CardCours extends StatefulWidget {
   final data;
   final widget;
 
-  const CardCours({Key key, this.title, this.resume, this.logo, this.data, this.widget})
+  const CardCours(
+      {Key key, this.title, this.resume, this.logo, this.data, this.widget})
       : super(key: key);
 
   @override
@@ -40,7 +42,60 @@ class _CardCoursState extends State<CardCours> {
         elevation: 1.0,
         child: Stack(
           children: [
-            widget.widget,
+            Positioned(
+              bottom: 10,
+              left: 5,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  BlocListener<ParticipantBloc, ParticipantState>(
+                    bloc: bloc,
+                    listener: (context, state) {
+                      if (state is ParticipantInitial) {
+                        setState(() {
+                          loading = true;
+                        });
+                      }
+                      if (state is ParticipantSucces) {
+                        setState(() {
+                          loading = false;
+                          SnackBar(
+                                  content: Text(
+                                    state.message,
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                  backgroundColor:
+                                      state.message.toString().contains("déjà")
+                                          ? Colors.red
+                                          : Colors.green)
+                              .show(context, root: true);
+                        });
+                      }
+                    },
+                    child: InkWell(
+                      onTap: () {
+                        setState(() {
+                          bloc.add(ParticipantAdd(body: {
+                            "idCours": widget.data.id,
+                            "idParticiper": MyPreferences.ID_USER_CONNECTER
+                          }));
+                        });
+                      },
+                      child: loading
+                          ? SpinKitFadingCircle(
+                              color: primaryColor,
+                              size: 20,
+                            )
+                          : CustomText(
+                              text: "S'inscrire à ce cours",
+                              color: Colors.redAccent,
+                              weight: FontWeight.w300,
+                            ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
             Container(
               width: size.width * .34,
               height: size.height * .5,

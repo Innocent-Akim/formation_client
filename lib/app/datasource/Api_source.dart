@@ -63,7 +63,7 @@ class ApiSource {
       var url = "${baseUrl}/participant/add";
       var request = await http.post(Uri.parse(url),
           headers: <String, String>{
-            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Type': 'application/x-www-form-urlencoded'
           },
           body: body);
       return request;

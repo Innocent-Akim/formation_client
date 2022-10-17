@@ -66,7 +66,6 @@ class CustomText extends StatelessWidget {
 }
 
 Navigator localNavigator() => Navigator(
-
       key: navigationController.navigatorKey,
       onGenerateRoute: generateRoute,
       initialRoute: home,
