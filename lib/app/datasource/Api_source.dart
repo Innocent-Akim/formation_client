@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:formation_client/model/response/response_cours.dart';
 import 'package:formation_client/model/response/response_identity.dart';
 import 'package:formation_client/model/response/response_login.dart';
 import 'package:formation_client/router/mypreferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 
 class ApiSource {
   static ApiSource _instance;
@@ -52,6 +55,19 @@ class ApiSource {
     } catch (_) {
       print("--------ERROR-------> ${_.toString()}");
     }
+    return null;
+  }
+
+  Future<Response> addParticipant(body) async {
+    try {
+      var url = "${baseUrl}/participant/add";
+      var request = await http.post(Uri.parse(url),
+          headers: <String, String>{
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: body);
+      return request;
+    } catch (_) {}
     return null;
   }
 }

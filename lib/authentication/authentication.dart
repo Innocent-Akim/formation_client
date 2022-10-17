@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
-// import 'package:fluttertoast/fluttertoast.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:formation_client/app/authentificate/bloc/authenticate_bloc.dart';
 import 'package:formation_client/app/identifications/bloc/identification_bloc.dart';
 import 'package:formation_client/controllers/MenuController.dart';
@@ -14,7 +12,6 @@ import 'package:formation_client/response/responsive.dart';
 import 'package:formation_client/router/activity_navigator.dart';
 import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
-// import 'package:motion_toast/motion_toast.dart' as motion_toast;
 import 'package:snack/snack.dart';
 import '../constants.dart';
 

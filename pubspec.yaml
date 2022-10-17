@@ -36,6 +36,9 @@ dependencies:
   motion_toast: ^2.3.3
   video_player:
   flutter_draggable_gridview:
+  syncfusion_flutter_pdfviewer: ^19.3.43-beta
+  flutter_stripe:
+  # flutter_stripe_web:
   # animated_toast_list: 
   # flutter_flushbar:
   js: ^0.6.2
