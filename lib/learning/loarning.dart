@@ -29,7 +29,7 @@ class _StateBody extends State<Loarding> {
   @override
   void initState() {
     super.initState();
-    bloc = BlocProvider.of<ParticipantBloc>(context);
+
     init();
     pdfViewerController = PdfViewerController();
   }

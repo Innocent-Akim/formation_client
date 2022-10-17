@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:formation_client/app/addParticipant/participant_bloc.dart';
 import 'package:formation_client/app/cours/cours_bloc.dart';
+import 'package:formation_client/controllers/MenuController.dart';
 import 'package:formation_client/learning/loarning.dart';
 import 'package:formation_client/response/responsive.dart';
 import 'package:formation_client/router/activity_navigator.dart';
+import 'package:formation_client/router/mypreferences.dart';
 import 'package:get/get.dart';
 
 import '../constants.dart';
@@ -20,9 +23,12 @@ class Home extends StatefulWidget {
 
 class _StateBody extends State<Home> {
   var bloc;
+  ParticipantBloc stateManage;
+  bool loading = false;
   @override
   void initState() {
     bloc = BlocProvider.of<CoursBloc>(context);
+    stateManage = BlocProvider.of<ParticipantBloc>(context);
     bloc.add(CoursFind());
     super.initState();
   }
@@ -153,9 +159,57 @@ class _StateBody extends State<Home> {
                               });
                             },
                             child: CardCours(
+                              data: state.data.contents[index],
                               logo: state.data.contents[index].logo,
                               resume: state.data.contents[index].resume,
                               title: state.data.contents[index].title,
+                              widget: Positioned(
+                                  bottom: 10,
+                                  left: 5,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: <Widget>[
+                                      BlocListener<ParticipantBloc,
+                                          ParticipantState>(
+                                        bloc: stateManage,
+                                        listener: (context, state) {
+                                          if (state is ParticipantInitial) {
+                                            setState(() {
+                                              loading = true;
+                                            });
+                                          }
+                                          if (state is ParticipantSucces) {
+                                            setState(() {
+                                              loading = false;
+                                            });
+                                          }
+                                        },
+                                        child: InkWell(
+                                          onTap: () {
+                                            setState(() {
+                                              stateManage
+                                                  .add(ParticipantAdd(body: {
+                                                "idCours": state
+                                                    .data.contents[index].id,
+                                                "idParticiper": MyPreferences
+                                                    .ID_USER_CONNECTER
+                                              }));
+                                            });
+                                          },
+                                          child: loading
+                                              ? SpinKitFadingCircle(
+                                                  color: primaryColor,
+                                                  size: 20,
+                                                )
+                                              : CustomText(
+                                                  text: "S'inscrire à ce cours",
+                                                  color: Colors.redAccent,
+                                                  weight: FontWeight.normal,
+                                                ),
+                                        ),
+                                      ),
+                                    ],
+                                  )),
                             ),
                           );
                         }),

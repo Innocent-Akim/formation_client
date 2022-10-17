@@ -9,9 +9,7 @@ part 'participant_state.dart';
 
 class ParticipantBloc extends Bloc<ParticipantEvent, ParticipantState> {
   ParticipantBloc() : super(ParticipantInitial()) {
-    on<ParticipantEvent>((event, emit) {
-      addParticipant(event, emit);
-    });
+    on<ParticipantAdd>(addParticipant);
   }
 
   Future<void> addParticipant(
@@ -20,7 +18,7 @@ class ParticipantBloc extends Bloc<ParticipantEvent, ParticipantState> {
       emit(ParticipantInitial());
       var response = await ApiSource.getInstance.addParticipant(event.body);
       var result = await jsonDecode(response.body);
-      if (result.status == 200) {
+      if (result['token'] == "OK") {
         emit(ParticipantSucces(message: result['msg']));
       } else {
         emit(ParticipantFailed());
